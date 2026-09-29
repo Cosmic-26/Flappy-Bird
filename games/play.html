@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arcade Game</title>
+  <style>
+    :root { color-scheme: dark; --accent: #ffcf5a; }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body { display: grid; min-height: 100vh; place-items: center; padding: 18px; color: #f5f2e8; background: #101820; font-family: Georgia, "Times New Roman", serif; }
+    .panel { width: min(100%, 760px); padding: 20px; border: 1px solid rgba(255,255,255,.14); border-radius: 8px; background: rgba(15,22,30,.86); }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+    h1 { margin: 0; font-size: clamp(28px, 6vw, 56px); font-weight: 400; }
+    a { color: #a8b0b2; font: 700 12px Arial, sans-serif; text-decoration: none; }
+    a:hover { color: var(--accent); }
+    canvas { display: block; width: 100%; aspect-ratio: 16 / 10; border-radius: 5px; background: #192732; touch-action: manipulation; }
+    p { margin: 14px 0 0; color: #a8b0b2; font: 13px/1.5 Arial, sans-serif; }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <header><h1 id="title">Arcade Game</h1><a href="index.html">All games</a></header>
+    <canvas id="game" aria-label="Playable arcade game"></canvas>
+    <p id="instruction">Tap, click, or press Space to play.</p>
+  </main>
+  <script>
+    (() => {
+      const titles = ['Neon Drift', 'Orbit Catcher', 'Cinder Climb', 'Moon Miner', 'Pixel Current', 'Star Hopper', 'Echo Valley', 'Crystal Dodge', 'Solar Sprint', 'Cloud Circuit'];
+      const params = new URLSearchParams(location.search);
+      const gameNumber = Math.max(1, Number(params.get('game')) || 1);
+      const title = `${titles[(gameNumber - 1) % titles.length]} ${Math.ceil(gameNumber / 10)}`;
+      const canvas = document.querySelector('#game');
+      const context = canvas.getContext('2d');
+      const titleText = document.querySelector('#title');
+      const instruction = document.querySelector('#instruction');
+      let width, height, player, objects, score, running, last, frameId;
+      titleText.textContent = title;
+      document.title = title;
+      const mode = gameNumber % 3;
+      const objective = ['Dodge red meteors', 'Collect green sparks', 'Touch the blue target'][mode];
+      instruction.textContent = `${objective}. Tap, click, or press Space.`;
+      function resize() { const ratio = Math.min(devicePixelRatio || 1, 2); const bounds = canvas.getBoundingClientRect(); width = bounds.width; height = bounds.height; canvas.width = width * ratio; canvas.height = height * ratio; context.setTransform(ratio, 0, 0, ratio, 0, 0); }
+      function reset() { score = 0; player = { x: width * .18, y: height * .5, size: Math.max(15, width * .035), vy: 0 }; objects = []; running = true; last = performance.now(); cancelAnimationFrame(frameId); frameId = requestAnimationFrame(loop); }
+      function act() { if (!running) reset(); player.vy = -height * .008; player.y = Math.max(25, player.y - height * .08); }
+      function spawn() { objects.push({ x: width + 20, y: height * (.18 + Math.random() * .64), size: Math.max(13, width * .025), speed: width * (.00022 + (gameNumber % 5) * .000025) }); }
+      function message(big, small) { context.textAlign = 'center'; context.fillStyle = '#fff'; context.font = '400 30px Georgia'; context.fillText(big, width / 2, height / 2 - 8); context.fillStyle = '#a8b0b2'; context.font = '13px Arial'; context.fillText(small, width / 2, height / 2 + 22); context.textAlign = 'start'; }
+      function loop(now) { const delta = Math.min(now - last, 40); last = now; const background = context.createLinearGradient(0, 0, width, height); background.addColorStop(0, '#263b48'); background.addColorStop(1, '#101820'); context.fillStyle = background; context.fillRect(0, 0, width, height); player.vy += height * .00042 * delta; player.y += player.vy * delta; if (!objects.length || objects[objects.length - 1].x < width * .58) spawn(); objects.forEach(object => object.x -= object.speed * delta); objects = objects.filter(object => object.x > -40); context.fillStyle = '#ffcf5a'; context.beginPath(); context.arc(player.x, player.y, player.size, 0, Math.PI * 2); context.fill(); objects.forEach(object => { context.fillStyle = mode === 0 ? '#f06d5d' : mode === 1 ? '#70e1a0' : '#65c8ff'; context.beginPath(); context.arc(object.x, object.y, object.size, 0, Math.PI * 2); context.fill(); }); objects.forEach(object => { if (Math.hypot(player.x - object.x, player.y - object.y) < player.size + object.size) { if (mode === 0) running = false; else { score += mode === 1 ? 3 : 5; object.x = -100; } } }); if (player.y < 0 || player.y > height || !running) { running = false; message('ROUND OVER', 'Tap or press Space to try again'); return; } score += delta * .01; context.fillStyle = '#fff'; context.font = '700 15px Arial'; context.fillText(`${title}  ·  ${Math.floor(score)}`, 18, 28); frameId = requestAnimationFrame(loop); }
+      window.addEventListener('resize', () => { resize(); if (!running) message(title.toUpperCase(), 'Tap or press Space to begin'); });
+      window.addEventListener('keydown', event => { if (event.code === 'Space' || event.code === 'Enter') { event.preventDefault(); act(); } });
+      canvas.addEventListener('pointerdown', act); resize(); message(title.toUpperCase(), 'Tap or press Space to begin');
+    })();
+  </script>
+</body>
+</html>

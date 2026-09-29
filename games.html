@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>100 Tiny Games</title>
+  <style>
+    :root { color-scheme: dark; --ink: #f5f2e8; --muted: #a8b0b2; --accent: #ffcf5a; }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body { color: var(--ink); background: #101820; font-family: Georgia, "Times New Roman", serif; }
+    button { font: inherit; }
+    .app { min-height: 100vh; padding: 24px; background: radial-gradient(circle at 50% 0, rgba(255,207,90,.16), transparent 42%), #101820; }
+    header { width: min(100%, 1120px); margin: 0 auto; padding: 20px 0 28px; }
+    .kicker { margin: 0 0 8px; color: var(--accent); font: 700 11px Arial, sans-serif; letter-spacing: 2px; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(38px, 7vw, 76px); font-weight: 400; line-height: .95; }
+    .intro { max-width: 470px; margin: 16px 0 0; color: var(--muted); font: 15px/1.6 Arial, sans-serif; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 12px; width: min(100%, 1120px); margin: 0 auto; }
+    .game-card { min-height: 132px; padding: 17px; border: 1px solid rgba(255,255,255,.13); border-radius: 8px; color: var(--ink); background: rgba(15,22,30,.82); cursor: pointer; text-align: left; transition: transform .18s ease, border-color .18s ease, background .18s ease; }
+    .game-card:hover, .game-card:focus-visible { transform: translateY(-3px); border-color: var(--accent); background: rgba(255,255,255,.1); outline: none; }
+    .number { color: var(--accent); font: 700 11px Arial, sans-serif; letter-spacing: 1px; }
+    .game-card strong { display: block; margin-top: 22px; font-size: 20px; font-weight: 400; }
+    .game-card small { display: block; margin-top: 7px; color: var(--muted); font: 12px Arial, sans-serif; }
+    .screen { display: none; place-items: center; min-height: calc(100vh - 48px); }
+    .screen.active { display: grid; }
+    .game-panel { width: min(100%, 760px); padding: 20px; border: 1px solid rgba(255,255,255,.14); border-radius: 8px; background: rgba(15,22,30,.86); }
+    .game-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+    .game-top h2 { margin: 0; font-size: clamp(28px, 6vw, 56px); font-weight: 400; }
+    .back { border: 0; color: var(--muted); background: transparent; cursor: pointer; font: 700 12px Arial, sans-serif; }
+    .back:hover { color: var(--accent); }
+    canvas { display: block; width: 100%; aspect-ratio: 16 / 10; border-radius: 5px; background: #192732; touch-action: manipulation; }
+    .help { margin: 14px 0 0; color: var(--muted); font: 13px/1.5 Arial, sans-serif; }
+    @media (max-width: 620px) { .app { padding: 16px; } .game-panel { padding: 12px; } }
+  </style>
+</head>
+<body>
+  <main class="app" id="menu">
+    <header><p class="kicker">The little arcade</p><h1>100 tiny games.</h1><p class="intro">Everything is inside this one HTML file. Pick a game, then tap or press Space.</p></header>
+    <section class="grid" id="grid" aria-label="Game list"></section>
+  </main>
+  <main class="app screen" id="screen">
+    <section class="game-panel">
+      <header class="game-top"><h2 id="game-title"></h2><button class="back" id="back" type="button">Back to games</button></header>
+      <canvas id="canvas" aria-label="Playable game"></canvas>
+      <p class="help" id="help"></p>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const titles = ['Neon Drift','Orbit Catcher','Cinder Climb','Moon Miner','Pixel Current','Star Hopper','Echo Valley','Crystal Dodge','Solar Sprint','Cloud Circuit','Lantern Keeper','Comet Courier','Tidal Tiles','Magnet Maze','Rocket Garden','Frostline','Signal Jam','Prism Painter','Volcano Dash','Quiet Orbit','Asteroid Post','Bamboo Bounce','Circuit Chef','Deep Sea Scan','Ember Stack','Garden Patrol','Gravity Well','Honeycomb Hunt','Ink Runner','Jelly Jump','Kite Chase','Lunar Landing','Meteor Match','Night Train','Ocean Pulse','Paper Plane','Quasar Quest','River Rapids','Signal Tower','Thunder Road','Umbra Runner','Vapor Vault','Wave Rider','Xeno Garden','Yonder Yard','Zen Blocks','Aurora Aim','Bubble Forge','Canyon Climber','Dusk Defender','Evergreen Escape','Firefly Field','Glass Garden','Harbor Hop','Icebox Invaders','Jungle Jive','Kinetic Keys','Laser Lagoon','Mosaic Moon','Nova Nest','Opal Outpost','Plasma Picnic','Quartz Rally','Rainmaker','Sunset Switch','Telescope Town','Underwater Uplink','Velvet Volcano','Windmill Works','Xylophone Sky','Yellow Jacket','Zigzag Zenith','Apple Arcade','Brass Beacon','Copper Canyon','Dragonfly Drift','Electric Eel','Foxfire','Gold Rush','Horizon Hop','Iron Island','Jade Jumper','Kindle Knights','Lighthouse Loop','Maple Meteor','Nectar Navigator','Oxbow Outrun','Pinecone Panic','Quill Quest','Rust Rocket','Sapphire Slide','Topaz Tunnel','Umber Uplink','Violet Voyage','Wildwood Wheels','X-ray Express','Yarn Yard','Zephyr Zone','Final Frontier','Last Light'];
+      const menu = document.querySelector('#menu');
+      const screen = document.querySelector('#screen');
+      const grid = document.querySelector('#grid');
+      const canvas = document.querySelector('#canvas');
+      const context = canvas.getContext('2d');
+      const title = document.querySelector('#game-title');
+      const help = document.querySelector('#help');
+      let width = 0, height = 0, player, objects, score, running, last, frameId, current;
+      titles.forEach((name, index) => { const button = document.createElement('button'); button.className = 'game-card'; button.type = 'button'; button.innerHTML = `<span class="number">${String(index + 1).padStart(2, '0')}</span><strong>${name}</strong><small>Tap to play</small>`; button.addEventListener('click', () => start(index + 1)); grid.appendChild(button); });
+      function resize() { const ratio = Math.min(devicePixelRatio || 1, 2); const bounds = canvas.getBoundingClientRect(); width = bounds.width; height = bounds.height; canvas.width = width * ratio; canvas.height = height * ratio; context.setTransform(ratio, 0, 0, ratio, 0, 0); }
+      function start(number) { current = number; menu.style.display = 'none'; screen.classList.add('active'); title.textContent = `${titles[number - 1]} · ${number}`; help.textContent = ['Dodge the red meteors.', 'Collect the green sparks.', 'Touch the blue target.'][number % 3]; resize(); reset(); }
+      function reset() { score = 0; player = { x: width * .18, y: height * .5, size: Math.max(15, width * .035), vy: 0 }; objects = []; running = true; last = performance.now(); cancelAnimationFrame(frameId); frameId = requestAnimationFrame(loop); }
+      function action() { if (!running) reset(); player.vy = -height * .008; player.y = Math.max(25, player.y - height * .08); }
+      function spawn() { objects.push({ x: width + 20, y: height * (.18 + Math.random() * .64), size: Math.max(13, width * .025), speed: width * (.00022 + (current % 5) * .000025) }); }
+      function end() { running = false; context.textAlign = 'center'; context.fillStyle = '#fff'; context.font = '400 30px Georgia'; context.fillText('ROUND OVER', width / 2, height / 2 - 8); context.fillStyle = '#a8b0b2'; context.font = '13px Arial'; context.fillText('Tap or press Space to try again', width / 2, height / 2 + 22); context.textAlign = 'start'; }
+      function loop(now) { const delta = Math.min(now - last, 40); last = now; const mode = current % 3; const background = context.createLinearGradient(0, 0, width, height); background.addColorStop(0, '#263b48'); background.addColorStop(1, '#101820'); context.fillStyle = background; context.fillRect(0, 0, width, height); player.vy += height * .00042 * delta; player.y += player.vy * delta; if (!objects.length || objects[objects.length - 1].x < width * .58) spawn(); objects.forEach(object => object.x -= object.speed * delta); objects = objects.filter(object => object.x > -40); context.fillStyle = '#ffcf5a'; context.beginPath(); context.arc(player.x, player.y, player.size, 0, Math.PI * 2); context.fill(); objects.forEach(object => { context.fillStyle = mode === 0 ? '#f06d5d' : mode === 1 ? '#70e1a0' : '#65c8ff'; context.beginPath(); context.arc(object.x, object.y, object.size, 0, Math.PI * 2); context.fill(); }); objects.forEach(object => { if (Math.hypot(player.x - object.x, player.y - object.y) < player.size + object.size) { if (mode === 0) running = false; else { score += mode === 1 ? 3 : 5; object.x = -100; } } }); if (player.y < 0 || player.y > height || !running) { end(); return; } score += delta * .01; context.fillStyle = '#fff'; context.font = '700 15px Arial'; context.fillText(`${titles[current - 1]} · ${Math.floor(score)}`, 18, 28); frameId = requestAnimationFrame(loop); }
+      document.querySelector('#back').addEventListener('click', () => { cancelAnimationFrame(frameId); screen.classList.remove('active'); menu.style.display = ''; });
+      window.addEventListener('resize', resize); window.addEventListener('keydown', event => { if (event.code === 'Space' || event.code === 'Enter') { event.preventDefault(); action(); } }); canvas.addEventListener('pointerdown', action);
+    })();
+  </script>
+</body>
+</html>

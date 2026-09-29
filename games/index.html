@@ -20,7 +20,7 @@
       const type = (index - 1) % names.length;
       const level = Math.ceil(index / 10);
       const name = `${labels[type]} ${level}`;
-      grid.insertAdjacentHTML('beforeend', `<a class="game-card" href="${names[type]}-${level}.html"><span class="game-number">${String(index).padStart(2, '0')}</span><h2>${name}</h2><p>Quick reflex challenge</p></a>`);
+      grid.insertAdjacentHTML('beforeend', `<a class="game-card" href="play.html?game=${index}"><span class="game-number">${String(index).padStart(2, '0')}</span><h2>${name}</h2><p>Quick reflex challenge</p></a>`);
     }
   </script>
 </body>
