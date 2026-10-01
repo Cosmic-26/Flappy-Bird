@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Mood-Based Color Palettes",
+  "version": "1.0.0",
+  "description": "Explore curated color palettes by mood and copy HEX values.",
+  "permissions": ["clipboardWrite"],
+  "action": {
+    "default_title": "Mood-Based Color Palettes",
+    "default_popup": "popup.html"
+  }
+}

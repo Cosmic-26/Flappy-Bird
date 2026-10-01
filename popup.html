@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mood-Based Color Palettes</title>
+    <link rel="stylesheet" href="popup.css">
+    <script src="popup.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <p class="eyebrow">Color, by feeling</p>
+        <span class="palette-count" id="palette-count"></span>
+      </header>
+
+      <section class="intro" aria-labelledby="palette-title">
+        <label class="mood-picker-label" for="mood-picker">Choose a mood</label>
+        <select id="mood-picker"></select>
+        <h1 id="palette-title"></h1>
+        <p id="palette-description"></p>
+      </section>
+
+      <section class="palette-section" aria-labelledby="colors-heading">
+        <div class="section-heading">
+          <h2 id="colors-heading">The palette</h2>
+          <span>8 colors</span>
+        </div>
+        <div class="swatch-grid" id="swatch-grid"></div>
+      </section>
+
+      <footer class="status-bar">
+        <span class="status-dot" aria-hidden="true"></span>
+        <p id="status" role="status" aria-live="polite">Select a color to copy its HEX value.</p>
+      </footer>
+    </main>
+  </body>
+</html>
