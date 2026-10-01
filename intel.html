@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="en"><head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20261001-05-b7952c1","C":{"Abril Fatface":"YACgEZbkUVE,0","Alfa Slab One":"YACgEYS9sJU,0","Anton":"YACgEcYqQ-A,0","Archivo":"YACgEZulLoA,0","Arial Narrow":"YAGyDvJ_4Ts,0","Arial Rounded MT Bold":"YAFcfoaHu-s,0","Arial":"YAGyDvJ_4Ts,0","Avenir Next":"YAFcfmNq6UY,0","Baloo 2":"YADK30bC6HQ,0","Bebas Neue":"YACgESME5ew,0","Bricolage Grotesque":"YAFyMcdwzpc,0","Broken Glyph":"YADZ-exUkv0,0","Canva Sans":"YAFdJjTk5UU,1","Caveat":"YALBs2ploWQ,0","Comic Sans MS":"YAFcfvtOAUY,1","Cormorant Garamond":"YAFdJhX-538,0","Courier New":"YAGzXiGs0_8,0","Courier Prime":"YAD1aFjegN8,0","DM Sans":"YAD1aU3sLnI,0","DM Serif Display":"YAD1aYG82rc,0","Forum":"YACgEcnnqB4,0","Fraunces":"YAFdJpU7Kkk,0","Georgia":"YAGzXkO0pEM,0","Ghost Mono":"YAHQutsX00Q,0","Hanken Grotesk":"YAFcfhwp99E,0","Helvetica Neue":"YAFcf6CtJfI,0","Helvetica":"YAFcf6CtJfI,0","IBM Plex Mono":"YAFdJkmvhGI,0","Impact":"YAFcfnjI7Vk,0","Instrument Serif":"YAHFeOnZNEk,0","Inter":"YAFdJvSyp_k,3","Iowan Old Style":"YAGNIFa8j9o,0","Jacques Francois":"YADK3zbC6RM,0","JetBrains Mono":"YAFdJksXcAk,0","Josefin Sans":"YAFdJjvw9Ps,0","Lato":"YAFdJuFCnaw,0","Libre Baskerville":"YACgEUFdPdA,0","Lobster":"YAD8SnSjSFI,0","Lora":"YACgEXvxf8Q,0","Merriweather":"YACgEXvHxxs,0","Montserrat":"YAFdtQi73Xs,0","Nunito":"YAFdJoNRMmU,1","Oleo Script":"YACgEQQ14jI,0","Oswald":"YACgEQY10lw,0","Pacifico":"YADLjORQ1u4,0","Phantom Sans":"YAFdJvgJ5TU,0","Playfair Display":"YAFdJhem5V8,1","Plus Jakarta Sans":"YAGvf3_u0_Q,0","Poppins":"YAFdJjbTu24,1","Press Start 2P":"YAFyGr-8pmQ,0","Quicksand":"YAFdJpYtCxE,1","Raleway":"YAFdJhmxbVQ,1","Roboto Slab":"YAFdJswIKAg,0","Rockwell":"YAFcfyVZnN0,0","Rye":"YACgEdQP21k,0","Segoe UI":"YAHNdRD1Klw,0","Source Sans 3":"YAG4lO1Mj10,0","Source Serif 4":"YACgEfdj394,0","Space Grotesk":"YADZ-dYEmhg,0","Space Mono":"YADW1-vpsoc,0","Times New Roman":"YAGzXW3gftg,0","Times":"YAGzXW3gftg,0","Trebuchet MS":"YAFcfrglpVA,0","UV Display":"YAEdVfSSpYo,0","UV Sans":"YAFdJvgJ5TU,0","Ubuntu":"YACgERDU--Q,0","Verdana":"YAGzXTctYtQ,0","Work Sans":"YAGXhLOKv44,0","Yellowtail":"YACgEYG4kG4,0","ui-monospace":"YAD1aFjegN8,0","ui-sans-serif":"YACkoD1yZN0,0"}}');</script><script src="/_sdk/6542d56fbfe7a3eb.telemetry_sdk.js" integrity="sha512-ECdM0nK7EkwDuOqho2qxgyRQXyBHk9hZqRKMBr+Xsu6zjeHlt+qkO2N2YRiHN7Kg4e1fEHDhjIp4bGJYVypv1g=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood-Based Color Palettes</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #292126;
+      --paper: #fff8ee;
+      --card: #fffdf9;
+      --line: #e5d6c4;
+      --accent: #bf5b3d;
+      --muted: #685d54;
+      --soft: #fff0e1;
+      --shadow: rgba(72, 42, 31, .18);
+      --deep-shadow: rgba(72, 42, 31, .3);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { background: var(--paper); }
+
+    body {
+      min-width: 0;
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "DM Sans", sans-serif;
+      transition: background-color .35s ease, color .35s ease;
+    }
+
+    button { font: inherit; }
+
+    .app-shell {
+      width: 100%;
+      min-height: calc(100 * min(var(--vh, 1vh), 1vh));
+      padding: 1.75rem 1rem 2.5rem;
+      background:
+        radial-gradient(circle at 7% 6%, rgba(255,255,255,.55), transparent 19rem),
+        radial-gradient(circle at 94% 2%, rgba(255,255,255,.32), transparent 20rem);
+      transition: background .35s ease;
+    }
+
+    .display-title { font-family: "Fraunces", serif; }
+
+    .paper-card {
+      background-color: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 55px var(--shadow);
+      transition: background-color .35s ease, border-color .35s ease, box-shadow .35s ease;
+    }
+
+    .mood-button {
+      position: relative;
+      min-height: 130px;
+      padding: 1.25rem;
+      overflow: hidden;
+      color: var(--ink);
+      text-align: left;
+      background-color: rgba(255,255,255,.74);
+      border: 1px solid var(--line);
+      border-radius: 1.15rem;
+      box-shadow: 0 4px 13px rgba(34, 26, 22, .04);
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+    }
+
+    .mood-button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 28px var(--shadow);
+    }
+
+    .mood-button.is-active {
+      transform: translateY(-3px);
+      box-shadow: 0 0 0 4px var(--accent), 0 16px 28px var(--shadow);
+    }
+
+    .mood-dot {
+      display: block;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 7px solid var(--soft);
+      border-radius: 999px;
+      background: var(--accent);
+      transition: background-color .3s ease, border-color .3s ease;
+    }
+
+    .mood-arrow {
+      color: var(--accent);
+      transition: color .3s ease, transform .2s ease;
+    }
+
+    .mood-button:hover .mood-arrow { transform: translateX(4px); }
+
+    .action-button,
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .55rem;
+      min-height: 48px;
+      padding: .72rem 1.15rem;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, background-color .25s ease, color .25s ease;
+    }
+
+    .action-button {
+      color: #ffffff;
+      background-color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .action-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 23px var(--shadow);
+    }
+
+    .back-button {
+      color: var(--ink);
+      background-color: var(--soft);
+      border: 1px solid var(--line);
+    }
+
+    .back-button:hover { transform: translateX(-2px); }
+
+    .mood-button:focus-visible,
+    .action-button:focus-visible,
+    .back-button:focus-visible,
+    .visual-piece:focus-visible,
+    .swatch:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .palette-view[hidden],
+    #menu-view[hidden] { display: none; }
+
+    .view { animation: rise-in .35s ease both; }
+
+    @keyframes rise-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .palette-tag {
+      display: inline-flex;
+      padding: .42rem .78rem;
+      border-radius: 999px;
+      font-size: .875rem;
+      font-weight: 700;
+      background-color: var(--soft);
+      color: var(--ink);
+    }
+
+    .visual-stage {
+      position: relative;
+      min-height: 300px;
+      overflow: hidden;
+      isolation: isolate;
+      border: 2px solid var(--line);
+      border-radius: 1.4rem;
+      background-color: var(--soft);
+      box-shadow: inset 0 0 0 7px rgba(255,255,255,.25);
+      transition: background-color .35s ease, border-color .35s ease, box-shadow .35s ease;
+    }
+
+    .visual-stage::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      pointer-events: none;
+      opacity: .34;
+      background-image:
+        linear-gradient(90deg, rgba(255,255,255,.34) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.34) 1px, transparent 1px);
+      background-size: 25px 25px;
+    }
+
+    .visual-piece {
+      position: absolute;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: .55rem;
+      padding: .9rem;
+      overflow: hidden;
+      text-align: left;
+      border: 2px solid #ffffff;
+      box-shadow: 0 12px 24px rgba(0,0,0,.24);
+      cursor: pointer;
+      transition: transform .22s ease, box-shadow .22s ease, filter .22s ease, background .35s ease, border-color .35s ease;
+    }
+
+    .visual-piece:hover {
+      filter: saturate(1.12) brightness(1.04);
+      transform: translateY(-4px) rotate(-1deg);
+    }
+
+    .visual-piece.is-selected {
+      transform: translateY(-5px) scale(1.025);
+      box-shadow: 0 0 0 5px var(--accent), 0 20px 36px rgba(0,0,0,.28);
+    }
+
+    .piece-main {
+      top: 2rem;
+      left: 7%;
+      width: 44%;
+      min-height: 178px;
+      border-radius: 1.6rem 1.6rem 4.2rem 1.6rem;
+    }
+
+    .piece-disc {
+      top: 1.85rem;
+      right: 9%;
+      width: 118px;
+      height: 118px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .piece-bar {
+      right: 7%;
+      bottom: 2.35rem;
+      width: 51%;
+      min-height: 68px;
+      border-radius: 1rem;
+    }
+
+    .piece-tile {
+      bottom: 1.7rem;
+      left: 11%;
+      width: 118px;
+      min-height: 92px;
+      border-radius: 1.1rem;
+    }
+
+    .visual-piece-label,
+    .visual-piece-icon {
+      background-color: rgba(255,255,255,.88);
+      color: #232323;
+    }
+
+    .visual-piece-label {
+      max-width: 75%;
+      padding: .42rem .62rem;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      line-height: 1.1;
+    }
+
+    .visual-piece-icon {
+      display: grid;
+      width: 1.75rem;
+      height: 1.75rem;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      place-items: center;
+    }
+
+    .piece-disc .visual-piece-label {
+      max-width: 100%;
+      text-align: center;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 178px;
+      padding: 1rem;
+      overflow: hidden;
+      text-align: left;
+      border: 2px solid rgba(255,255,255,.72);
+      border-radius: 1rem;
+      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, outline-color .18s ease;
+    }
+
+    .swatch:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 25px rgba(0,0,0,.18);
+    }
+
+    .swatch.is-selected {
+      outline: 4px solid var(--accent);
+      outline-offset: -7px;
+    }
+
+    .swatch-label,
+    .swatch-emotion {
+      color: #272229;
+      background-color: rgba(255,255,255,.9);
+      border-radius: .65rem;
+    }
+
+    .swatch-label {
+      display: inline-flex;
+      flex-direction: column;
+      width: fit-content;
+      max-width: 100%;
+      gap: .15rem;
+      padding: .48rem .62rem;
+      font-size: .78rem;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .swatch-label span:last-child {
+      font-size: .69rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+    }
+
+    .swatch-emotion {
+      display: block;
+      padding: .55rem .62rem;
+      font-size: .74rem;
+      line-height: 1.35;
+    }
+
+    .swatch-emotion strong {
+      display: block;
+      font-size: .79rem;
+    }
+
+    .copy-note {
+      align-self: flex-end;
+      color: rgba(255,255,255,.93);
+      font-size: .72rem;
+      font-weight: 700;
+      text-shadow: 0 1px 3px rgba(0,0,0,.35);
+    }
+
+    @media (min-width: 640px) {
+      .app-shell { padding: 2.5rem 1.75rem 3rem; }
+    }
+
+    @media (max-width: 640px) {
+      .visual-stage { min-height: 255px; }
+      .piece-main { width: 53%; min-height: 146px; }
+      .piece-disc { right: 6%; width: 92px; height: 92px; }
+      .piece-bar { right: 5%; width: 59%; }
+      .piece-tile { left: 7%; width: 96px; min-height: 78px; }
+      .swatch { min-height: 154px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/6c2ecc939521f244.data_sdk.js" type="text/javascript" integrity="sha512-gRx8s+XsZDN6mSIQu2sivLZysbV0WHhb5kXNUWlgVb5lCMU1foJYukyMEDPv8Tnoocb8iwqB4XdRrWc7oEGzIQ=="></script>
+  <script src="/_sdk/9a95f4c89f9d329a.editing_sdk.js" type="text/javascript" integrity="sha512-uqCEJTMLGkNaerhDaIXaCaksHwhGfiODxp6KAGyGJ3KnMlKU0zBHiRrGR0sESZuM3JlrF8iM9IVZakKW237LEQ=="></script>
+  <script src="/_sdk/ab4336f91e694f96.resizing_sdk.js" type="text/javascript" integrity="sha512-cxmeUrBrNlwwLr+tEu/iwM5F3boeK4qDMoH3QjUPqJptkO5NkaDVhQvyIHIn+3EflI5/uubWzkSA78B1tCswgA=="></script>
+ </head>
+ <body data-template-id="__page-root" style="background: rgb(255, 248, 238);">
+  <div class="app-shell">
+   <header class="mx-auto w-full max-w-6xl">
+    <div class="flex items-center gap-3 text-sm font-bold uppercase tracking-[.18em]"><span id="header-dot" class="h-3 w-3 rounded-full" aria-hidden="true"></span> <span data-template-id="eyebrow" class="canva-text" style="color: rgb(161, 75, 49); font-weight: 700; font-style: normal; font-size: 16px; letter-spacing: 0.12rem;">Creative color tool</span>
+    </div>
+    <div class="mt-5 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+     <div class="max-w-3xl">
+      <h1 data-template-id="page-title" class="canva-text display-title leading-[1.05]" style="color: rgb(46, 41, 37); font-weight: 700; font-style: normal; font-size: 32px;">Mood-Based Color Palettes</h1>
+      <p data-template-id="page-subtitle" class="canva-text mt-4 max-w-2xl leading-7" style="color: rgb(104, 93, 84); font-weight: 400; font-style: normal; font-size: 18px;">Choose a feeling, then discover a ready-to-use color story designed to bring it to life.</p>
+     </div>
+     <div class="hidden items-center gap-2 text-sm font-semibold md:flex"><i data-lucide="sparkles" class="h-4 w-4" aria-hidden="true"></i> <span data-template-id="header-note" class="canva-text" style="color: rgb(119, 105, 93); font-weight: 600; font-style: normal; font-size: 16px;">Choose a mood to begin</span>
+     </div>
+    </div>
+   </header>
+   <main class="mx-auto mt-9 w-full max-w-6xl">
+    <section id="menu-view" class="view" aria-labelledby="menu-heading">
+     <div data-template-id="mood-menu-panel" class="canva-panel paper-card rounded-[28px] p-5 sm:p-8" style="background: rgb(255, 253, 249);">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+       <div>
+        <h2 id="menu-heading" data-template-id="menu-title" class="canva-text display-title" style="color: rgb(46, 41, 37); font-weight: 600; font-style: normal; font-size: 24px;">What are you trying to make people feel?</h2>
+        <p data-template-id="menu-description" class="canva-text mt-2 max-w-3xl text-sm leading-6" style="color: rgb(104, 93, 84); font-weight: 400; font-style: normal; font-size: 16px;">Start with a mood. Every palette includes eight coordinated colors, emotional cues, and grounding contrast.</p>
+       </div><span data-template-id="menu-count" class="canva-tag rounded-full border px-3 py-1.5 text-sm font-bold" style="background: rgb(255, 244, 231); color: rgb(145, 69, 46); font-weight: 700; font-style: normal; font-size: 16px;">10 curated moods</span>
+      </div>
+      <div id="mood-grid" class="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"><button type="button" class="mood-button" data-mood="calm" aria-pressed="false"> <span class="flex items-center justify-between"> <span class="mood-dot"></span> <i data-lucide="arrow-right" class="mood-arrow h-5 w-5" aria-hidden="true"></i> </span> <span data-template-id="mood-calm" class="canva-text mt-4 block font-bold" style="color: rgb(46, 41, 37); font-weight: 700; font-style: normal; font-size: 16px;">Calm</span> <span data-template-id="mood-calm-helper" class="canva-text mt-1 block text-sm" style="color: rgb(115, 103, 93); font-weight: 400; font-style: normal; font-size: 16px;">Softly grounded</span> </button> <button type="button" class="mood-button" data-mood="energetic" aria-pressed="false"> <span class="flex items-center justify-between"> <span class="mood-dot"></span> <i data-lucide="arrow-right" class="mood-arrow h-5 w-5" aria-hidden="true"></i> </span> <span data-template-id="mood-energetic" class="canva-text mt-4 block font-bold" style="color: rgb(46, 41, 37); font-weight: 700; font-style: normal; font-size: 16px;">Energetic</span> <span data-template-id="mood-energetic-helper" class="canva-text mt-1 block text-sm" style="color: rgb(115, 103, 93); font-weight: 400; font-style: normal; font-size: 16px;">Bright momentum</span> </button> <button type="button" class="mood-button" data-mood="cozy" aria-pressed="false"> <span class="flex items-center justify-between"> <span class="mood-dot"></span> <i data-lucide="arrow-right" class="mood-arrow h-5 w-5" aria-hidden="true"></i> </span> <span data-template-id="mood-cozy" class="canva-text mt-4 block font-bold" style="color: rgb(46, 41, 37); font-weight: 700; font-style: normal; font-size: 16px;">Cozy</span> <span data-template-id="mood-cozy-helper" class="canva-text mt-1 block text-sm" style="color: rgb(115, 103, 93); font-weight: 400; font-style: normal; font-size: 16px;">Warm and familiar</span> </button> <button type="button" class="mood-button" data-mood="focused" aria-pressed="false"> <span class="flex items-center justify-between"> <span class="mood-dot"></span> <i data-lucide="arrow-right" class="mood-arrow h-5 w-5" aria-hidden="true"></i> </span> <span data-template-id="mood-focused" class="canva-text mt-4 block font-bold" style="color: rgb(46, 41, 37); font-weight: 700; font-style: normal; font-size: 16px;">Focused</span> <span data-template-id="mood-focused-helper" class="canva-text mt-1 block text-sm" style="color: rgb(115, 103, 93); font-weight: 400; font-style: normal; font-size: 16px;">Clear-minded depth</span> </button> <button type="button" class="mood-button" data-mood="playful" aria-pressed="false"> <span class="flex items-center justify-between"> <span class="mood-dot"></span> <i data-lucide="arrow-right" class="mood-arrow h-5 w-5" aria-hidden="true"></i> </span> <span data-template-id="mood-playful" class="canva-text mt-4 block font-bold" style="color: rgb(46, 41, 37); font-weight: 700; font-style: normal; font-size: 16px;">Playful</span> <span data-template-id="mood-playful-helper" class="canva-text mt-1 block text-sm" style="color: rgb(115, 103, 93); font-weight: 400; font-style: normal; font-size: 16px;">Joyful contrast</span> </button> <button type="button" class="mood-button" data-mood="romantic" aria-pressed="false"> <span class="flex items-center justify-between"> <span class="mood-dot"></span> <i data-lucide="arrow-right" class="mood-arrow h-5 w-5" aria-hidden="true"></i> </span> <span data-template-id="mood-romantic" class="canva-text mt-4 block font-bold" style="color: rgb(46, 41, 37); font-weight: 700; font-style: normal; font-size: 16px;">Romantic</span> <span data-template-id="mood-romantic-helper" class="canva-text mt-1 block text-sm" style="color: rgb(115, 103, 93); font-weight: 400; font-style: normal; font-size: 16px;">Tender and expressive</span> </button> <button type="button" class="mood-button" data-mood="dramatic" aria-pressed="false"> <span class="flex items-center justify-between"> <span class="mood-dot"></span> <i data-lucide="arrow-right" class="mood-arrow h-5 w-5" aria-hidden="true"></i> </span> <span data-template-id="mood-dramatic" class="canva-text mt-4 block font-bold" style="color: rgb(46, 41, 37); font-weight: 700; font-style: normal; font-size: 16px;">Dramatic</span> <span data-template-id="mood-dramatic-helper" class="canva-text mt-1 block text-sm" style="color: rgb(115, 103, 93); font-weight: 400; font-style: normal; font-size: 16px;">Bold, cinematic presence</span> </button> <button type="button" class="mood-button" data-mood="fresh" aria-pressed="false"> <span class="flex items-center justify-between"> <span class="mood-dot"></span> <i data-lucide="arrow-right" class="mood-arrow h-5 w-5" aria-hidden="true"></i> </span> <span data-template-id="mood-fresh" class="canva-text mt-4 block font-bold" style="color: rgb(46, 41, 37); font-weight: 700; font-style: normal; font-size: 16px;">Fresh</span> <span data-template-id="mood-fresh-helper" class="canva-text mt-1 block text-sm" style="color: rgb(115, 103, 93); font-weight: 400; font-style: normal; font-size: 16px;">Bright natural renewal</span> </button> <button type="button" class="mood-button" data-mood="grounded" aria-pressed="false"> <span class="flex items-center justify-between"> <span class="mood-dot"></span> <i data-lucide="arrow-right" class="mood-arrow h-5 w-5" aria-hidden="true"></i> </span> <span data-template-id="mood-grounded" class="canva-text mt-4 block font-bold" style="color: rgb(46, 41, 37); font-weight: 700; font-style: normal; font-size: 16px;">Grounded</span> <span data-template-id="mood-grounded-helper" class="canva-text mt-1 block text-sm" style="color: rgb(115, 103, 93); font-weight: 400; font-style: normal; font-size: 16px;">Earthy, dependable calm</span> </button> <button type="button" class="mood-button" data-mood="luxe" aria-pressed="false"> <span class="flex items-center justify-between"> <span class="mood-dot"></span> <i data-lucide="arrow-right" class="mood-arrow h-5 w-5" aria-hidden="true"></i> </span> <span data-template-id="mood-luxe" class="canva-text mt-4 block font-bold" style="color: rgb(46, 41, 37); font-weight: 700; font-style: normal; font-size: 16px;">Luxe</span> <span data-template-id="mood-luxe-helper" class="canva-text mt-1 block text-sm" style="color: rgb(115, 103, 93); font-weight: 400; font-style: normal; font-size: 16px;">Polished quiet glamour</span> </button>
+      </div>
+      <p id="selection-note" class="mt-6 border-t pt-5 text-sm font-semibold" aria-live="polite"></p>
+     </div>
+    </section>
+    <section id="palette-view" class="palette-view view" hidden="" aria-labelledby="palette-title">
+     <div data-template-id="palette-panel" class="canva-panel paper-card rounded-[28px] p-5 sm:p-8" style="background: rgb(255, 253, 249);">
+      <div class="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+       <div class="max-w-2xl"><span id="palette-tag" class="palette-tag"></span>
+        <h2 id="palette-title" class="display-title mt-4" tabindex="-1"></h2>
+        <p id="palette-description" class="mt-3 leading-7"></p>
+       </div>
+       <div id="palette-actions" class="flex flex-wrap gap-3"><button type="button" id="back-to-moods" class="back-button"> <i data-lucide="arrow-left" class="h-4 w-4" aria-hidden="true"></i> <span data-template-id="back-all-moods" class="canva-text" style="color: rgb(113, 56, 35); font-weight: 700; font-style: normal; font-size: 16px;">All moods</span> </button> <button type="button" id="apply-mood" class="action-button"> <i data-lucide="check" class="h-4 w-4" aria-hidden="true"></i> <span data-template-id="apply-button-text" class="canva-text" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">Apply selected mood</span> </button>
+       </div>
+      </div>
+      <section class="mt-8" aria-labelledby="visual-preview-title">
+       <div class="mb-3 flex flex-wrap items-end justify-between gap-2">
+        <div>
+         <h3 id="visual-preview-title" data-template-id="visual-preview-title" class="canva-text font-bold" style="color: rgb(46, 41, 37); font-weight: 700; font-style: normal; font-size: 19px;">Palette in motion</h3>
+         <p data-template-id="visual-preview-copy" class="canva-text mt-1 text-sm" style="color: rgb(104, 93, 84); font-weight: 400; font-style: normal; font-size: 16px;">Select a color piece to inspect the visual roles in this palette.</p>
+        </div>
+        <p id="piece-status" class="text-sm font-semibold" aria-live="polite"></p>
+       </div>
+       <div id="visual-stage" class="visual-stage" aria-label="Interactive palette composition preview"><button type="button" class="visual-piece piece-main" data-piece="main" data-role="Foundation" data-swatch-index="0" data-accent-index="1" aria-pressed="false"> <span class="visual-piece-label">Foundation</span> <span class="visual-piece-icon"><i data-lucide="layers-3" class="h-4 w-4" aria-hidden="true"></i></span> </button> <button type="button" class="visual-piece piece-disc" data-piece="disc" data-role="Spark" data-swatch-index="2" data-accent-index="3" aria-pressed="false"> <span class="visual-piece-label">Spark</span> </button> <button type="button" class="visual-piece piece-bar" data-piece="bar" data-role="Anchor" data-swatch-index="4" data-accent-index="5" aria-pressed="false"> <span class="visual-piece-label">Anchor</span> <span class="visual-piece-icon"><i data-lucide="move-right" class="h-4 w-4" aria-hidden="true"></i></span> </button> <button type="button" class="visual-piece piece-tile" data-piece="tile" data-role="Detail" data-swatch-index="6" data-accent-index="7" aria-pressed="false"> <span class="visual-piece-label">Detail</span> <span class="visual-piece-icon"><i data-lucide="plus" class="h-4 w-4" aria-hidden="true"></i></span> </button>
+       </div>
+      </section>
+      <div id="swatch-grid" class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label="Palette color swatches"></div>
+     </div>
+    </section>
+    <p id="live-status" class="sr-only" aria-live="polite"></p>
+   </main>
+   <footer class="mx-auto mt-8 w-full max-w-6xl text-center text-sm"><span data-template-id="footer-note" class="canva-text" style="color: rgb(123, 109, 96); font-weight: 400; font-style: normal; font-size: 16px;">Tip: click any swatch to copy its HEX value.</span>
+   </footer>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.lucide) window.lucide.createIcons();
+
+      const palettes = {
+        calm: {
+          label: "Calm",
+          title: "A quiet exhale",
+          description: "Cool blue and green tones offer a spacious, restorative color story.",
+          tag: "Selected mood · Calm",
+          colors: [
+            ["Cloud Blue", "#DFF6FF", "Serenity", "An airy, open foundation."],
+            ["Mint", "#49D6B5", "Ease", "A fresh green note for soft balance."],
+            ["Ocean Blue", "#1677FF", "Clarity", "A crisp, confident blue."],
+            ["Deep Teal", "#006D77", "Composure", "A stable cool-toned accent."],
+            ["Navy", "#102A43", "Depth", "A thoughtful, anchoring dark."],
+            ["Sky", "#68C5FF", "Refreshment", "A lift of clean brightness."],
+            ["Sea Green", "#00A878", "Harmony", "A natural connecting color."],
+            ["Blue Black", "#081C24", "Reflection", "A quiet finishing shade."]
+          ]
+        },
+        energetic: {
+          label: "Energetic",
+          title: "Make it move",
+          description: "Red, orange, and yellow create an unmistakably high-voltage palette.",
+          tag: "Selected mood · Energetic",
+          colors: [
+            ["Solar Yellow", "#FFE600", "Optimism", "An immediate beam of energy."],
+            ["Safety Orange", "#FF7A00", "Warmth", "A lively pulse of motion."],
+            ["Signal Red", "#FF1B1C", "Courage", "A fearless focal color."],
+            ["Hot Pink", "#FF3CAC", "Excitement", "A bright unexpected spark."],
+            ["Deep Red", "#A90000", "Determination", "A powerful anchor."],
+            ["Gold", "#FFB703", "Momentum", "A celebratory burst of light."],
+            ["Tangerine", "#FF5D00", "Adventure", "A vivid action color."],
+            ["Berry", "#7B0000", "Power", "A lasting dramatic finish."]
+          ]
+        },
+        cozy: {
+          label: "Cozy",
+          title: "Golden-hour comfort",
+          description: "Burnished orange, cocoa, and cream shape a warm familiar atmosphere.",
+          tag: "Selected mood · Cozy",
+          colors: [
+            ["Cream", "#FFF0D5", "Contentment", "A soft welcoming start."],
+            ["Honey", "#FFB000", "Comfort", "A sunny and settled glow."],
+            ["Clay", "#D95D39", "Groundedness", "A warm handmade accent."],
+            ["Cinnamon", "#A53F2B", "Nurture", "A deeply comforting note."],
+            ["Cocoa", "#3F1D16", "Security", "A rich, sheltering anchor."],
+            ["Peach", "#FFBE98", "Tenderness", "A gentle warm softness."],
+            ["Rust", "#C44536", "Belonging", "A color of shared stories."],
+            ["Espresso", "#27110B", "Rest", "A calm night-time finish."]
+          ]
+        },
+        focused: {
+          label: "Focused",
+          title: "Clear the noise",
+          description: "Strong blue, cyan, and deep ink make information feel precise and ordered.",
+          tag: "Selected mood · Focused",
+          colors: [
+            ["Ice", "#E5F6FF", "Openness", "Clean space for clear thought."],
+            ["Cyan", "#00B8D9", "Precision", "A bright focused signal."],
+            ["Royal Blue", "#0057FF", "Confidence", "A decisive working color."],
+            ["Steel", "#315D73", "Resolve", "Structured and dependable."],
+            ["Ink", "#091C2C", "Authority", "A serious visual anchor."],
+            ["Aqua", "#3DDCFF", "Clarity", "A crisp supporting highlight."],
+            ["Blue Green", "#007C91", "Discipline", "Steady and considered."],
+            ["Midnight", "#00111C", "Mastery", "A sharp professional finish."]
+          ]
+        },
+        playful: {
+          label: "Playful",
+          title: "Joy in full color",
+          description: "Purple, yellow, pink, and teal combine in an extroverted color celebration.",
+          tag: "Selected mood · Playful",
+          colors: [
+            ["Lemon", "#FFF200", "Delight", "A joyful first impression."],
+            ["Candy Pink", "#FF4FA3", "Cheer", "A charming pop of color."],
+            ["Teal", "#00C2A8", "Freshness", "A buoyant cool contrast."],
+            ["Purple", "#7B2CFF", "Whimsy", "A surprising creative turn."],
+            ["Grape", "#40156B", "Imagination", "A saturated playful anchor."],
+            ["Orange", "#FF8A00", "Spark", "A fizzy energetic burst."],
+            ["Aqua", "#00D9FF", "Curiosity", "A bright invitation to explore."],
+            ["Indigo", "#25104F", "Wonder", "A vivid after-hours finish."]
+          ]
+        },
+        romantic: {
+          label: "Romantic",
+          title: "A love letter in color",
+          description: "Blush, vivid red, and plum create a soft but expressive atmosphere.",
+          tag: "Selected mood · Romantic",
+          colors: [
+            ["Blush", "#FFD6E0", "Tenderness", "A gentle open beginning."],
+            ["Rose", "#FF5D8F", "Gentleness", "A caring vivid pink."],
+            ["Scarlet", "#E8174F", "Passion", "A powerful emotional center."],
+            ["Berry", "#A60D3D", "Devotion", "A deep expressive accent."],
+            ["Plum", "#4A1230", "Intimacy", "A grounded romantic dark."],
+            ["Petal", "#FFB3C6", "Admiration", "A cherished soft highlight."],
+            ["Magenta", "#D0006F", "Yearning", "A poetic saturated note."],
+            ["Wine", "#2A0716", "Forever", "A dramatic lasting finish."]
+          ]
+        },
+        dramatic: {
+          label: "Dramatic",
+          title: "Take the stage",
+          description: "Electric purple, black, and silver create cinematic contrast with presence.",
+          tag: "Selected mood · Dramatic",
+          colors: [
+            ["Lavender", "#E9DDFF", "Wonder", "A luminous opening note."],
+            ["Electric Violet", "#8A2EFF", "Intrigue", "A charged purple signal."],
+            ["Stage Purple", "#541388", "Mystery", "A theatrical saturated color."],
+            ["Hot Violet", "#C700FF", "Drama", "An unexpected bright flash."],
+            ["Near Black", "#121018", "Intensity", "A cinematic anchor."],
+            ["Silver", "#B9B7C6", "Anticipation", "A quiet reflective shine."],
+            ["Indigo", "#3F0D7A", "Gravity", "A deep visual tension."],
+            ["Black", "#050508", "Command", "A powerful final note."]
+          ]
+        },
+        fresh: {
+          label: "Fresh",
+          title: "Open the windows",
+          description: "Bright green, turquoise, and sky blue create an optimistic sense of renewal.",
+          tag: "Selected mood · Fresh",
+          colors: [
+            ["Lime Mist", "#E8FFD1", "Renewal", "A clean start after rain."],
+            ["Lime", "#A8FF00", "Vitality", "An unmistakable green spark."],
+            ["Leaf", "#39B54A", "Growth", "A bright botanical center."],
+            ["Turquoise", "#00D4C7", "Lightness", "An airy watery contrast."],
+            ["Forest", "#0A4B2A", "Resilience", "A stable natural anchor."],
+            ["Sky", "#55D6FF", "Clarity", "A breathable blue lift."],
+            ["Green", "#00A550", "Hope", "A clear positive signal."],
+            ["Evergreen", "#062817", "Revival", "A lasting natural finish."]
+          ]
+        },
+        grounded: {
+          label: "Grounded",
+          title: "Rooted and real",
+          description: "Olive, clay, and bark create a dependable, earth-led palette.",
+          tag: "Selected mood · Grounded",
+          colors: [
+            ["Stone", "#EEE7D7", "Reliability", "A quiet natural foundation."],
+            ["Moss", "#9AA14B", "Balance", "A stable green neutral."],
+            ["Olive", "#687D23", "Wisdom", "A patient practical center."],
+            ["Clay", "#B85C38", "Sincerity", "An honest warm accent."],
+            ["Bark", "#332818", "Strength", "A resilient dark anchor."],
+            ["Sand", "#D8B384", "Calm", "A softened earthen highlight."],
+            ["Fern", "#44633F", "Trust", "A dependable natural note."],
+            ["Soil", "#1F180F", "Endurance", "A rooted dark finish."]
+          ]
+        },
+        luxe: {
+          label: "Luxe",
+          title: "Quietly extravagant",
+          description: "Gold, emerald, cream, and ink create a polished high-contrast palette.",
+          tag: "Selected mood · Luxe",
+          colors: [
+            ["Champagne", "#FFF3CC", "Refinement", "A luminous elegant base."],
+            ["Gold", "#F4B400", "Celebration", "A rich unmistakable shine."],
+            ["Emerald", "#007D52", "Sophistication", "A cultivated green accent."],
+            ["Royal Purple", "#5A189A", "Allure", "A jewel-toned surprise."],
+            ["Onyx", "#111111", "Exclusivity", "A commanding dark anchor."],
+            ["Pearl", "#FFFDF4", "Grace", "A softened polished highlight."],
+            ["Garnet", "#8B1538", "Prestige", "A rare dramatic detail."],
+            ["Black Gold", "#201A0A", "Command", "A final luxurious depth."]
+          ]
+        }
+      };
+
+      const state = {
+        selectedMood: null,
+        appliedMood: "calm",
+        selectedPiece: "main",
+        selectedSwatch: null,
+        view: "menu"
+      };
+
+      const elements = {
+        menu: document.getElementById("menu-view"),
+        paletteView: document.getElementById("palette-view"),
+        moodGrid: document.getElementById("mood-grid"),
+        paletteActions: document.getElementById("palette-actions"),
+        paletteTitle: document.getElementById("palette-title"),
+        paletteDescription: document.getElementById("palette-description"),
+        paletteTag: document.getElementById("palette-tag"),
+        selectionNote: document.getElementById("selection-note"),
+        visualStage: document.getElementById("visual-stage"),
+        swatchGrid: document.getElementById("swatch-grid"),
+        pieceStatus: document.getElementById("piece-status"),
+        liveStatus: document.getElementById("live-status"),
+        headerDot: document.getElementById("header-dot")
+      };
+
+      function validHex(value) {
+        return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
+      }
+
+      function fallbackColor(index, colors) {
+        const usable = colors.filter(function (item) {
+          return Array.isArray(item) && validHex(item[1]);
+        });
+
+        if (!usable.length) return "#bf5b3d";
+        return usable[index % usable.length][1];
+      }
+
+      function colorAt(palette, index) {
+        const color = palette && Array.isArray(palette.colors) ? palette.colors[index] : null;
+        return color && validHex(color[1]) ? color[1] : fallbackColor(index, palette.colors || []);
+      }
+
+      function entryAt(palette, index) {
+        const fallbackHex = colorAt(palette, index);
+        const entry = palette && Array.isArray(palette.colors) ? palette.colors[index] : null;
+        return {
+          name: entry && entry[0] ? entry[0] : "Color",
+          hex: fallbackHex,
+          emotion: entry && entry[2] ? entry[2] : "Balance",
+          description: entry && entry[3] ? entry[3] : "A supporting color note."
+        };
+      }
+
+      function getPalette(mood) {
+        return palettes[mood] || palettes.calm;
+      }
+
+      function currentPalette() {
+        return getPalette(state.selectedMood || state.appliedMood || "calm");
+      }
+
+      function readableText(hex) {
+        if (!validHex(hex)) return "#17151a";
+        const clean = hex.slice(1);
+        const red = parseInt(clean.slice(0, 2), 16);
+        const green = parseInt(clean.slice(2, 4), 16);
+        const blue = parseInt(clean.slice(4, 6), 16);
+        return ((red * 299 + green * 587 + blue * 114) / 1000) > 155 ? "#17151a" : "#ffffff";
+      }
+
+      function announce(message) {
+        elements.liveStatus.textContent = "";
+        window.requestAnimationFrame(function () {
+          elements.liveStatus.textContent = message;
+        });
+      }
+
+      function renderSwatches(palette) {
+        const fragment = document.createDocumentFragment();
+
+        for (let index = 0; index < 8; index += 1) {
+          const color = entryAt(palette, index);
+          const swatch = document.createElement("button");
+          const label = document.createElement("span");
+          const colorName = document.createElement("span");
+          const hexValue = document.createElement("span");
+          const emotion = document.createElement("span");
+          const emotionTitle = document.createElement("strong");
+          const copyNote = document.createElement("span");
+
+          swatch.type = "button";
+          swatch.className = "swatch" + (state.selectedSwatch === index ? " is-selected" : "");
+          swatch.dataset.swatchIndex = String(index);
+          swatch.style.backgroundColor = color.hex;
+          swatch.style.borderColor = "#ffffff";
+          swatch.style.color = readableText(color.hex);
+          swatch.style.boxShadow = "0 10px 22px " + color.hex + "55";
+          swatch.setAttribute("aria-pressed", String(state.selectedSwatch === index));
+          swatch.setAttribute("aria-label", color.name + ", " + color.hex + ". " + color.emotion + ". Click to copy HEX color.");
+
+          label.className = "swatch-label";
+          colorName.textContent = color.name;
+          hexValue.textContent = color.hex;
+          label.append(colorName, hexValue);
+
+          emotion.className = "swatch-emotion";
+          emotionTitle.textContent = color.emotion;
+          emotion.append(emotionTitle, document.createTextNode(color.description));
+
+          copyNote.className = "copy-note";
+          copyNote.textContent = "Click to copy";
+
+          swatch.append(label, emotion, copyNote);
+          fragment.appendChild(swatch);
+        }
+
+        elements.swatchGrid.replaceChildren(fragment);
+      }
+
+      function render() {
+        const palette = currentPalette();
+        const paper = colorAt(palette, 0);
+        const line = colorAt(palette, 1);
+        const accent = colorAt(palette, 2);
+        const accentTwo = colorAt(palette, 3);
+        const dark = colorAt(palette, 4);
+        const soft = colorAt(palette, 5);
+        const detail = colorAt(palette, 6);
+        const depth = colorAt(palette, 7);
+        const ink = readableText(paper);
+        const muted = ink === "#17151a" ? "#4d4450" : "#f1eaf5";
+
+        document.documentElement.style.setProperty("--paper", paper);
+        document.documentElement.style.setProperty("--ink", ink);
+        document.documentElement.style.setProperty("--card", "#ffffff");
+        document.documentElement.style.setProperty("--line", line);
+        document.documentElement.style.setProperty("--accent", accent);
+        document.documentElement.style.setProperty("--soft", soft);
+        document.documentElement.style.setProperty("--muted", muted);
+        document.documentElement.style.setProperty("--shadow", dark + "33");
+        document.documentElement.style.setProperty("--deep-shadow", dark + "66");
+
+        document.body.style.backgroundColor = paper;
+        document.body.style.color = ink;
+
+        elements.menu.hidden = state.view !== "menu";
+        elements.paletteView.hidden = state.view !== "palette";
+
+        elements.headerDot.style.backgroundColor = accent;
+        elements.headerDot.style.boxShadow = "0 0 0 7px " + soft;
+
+        elements.paletteTag.textContent = palette.tag;
+        elements.paletteTag.style.backgroundColor = soft;
+        elements.paletteTag.style.color = readableText(soft);
+
+        elements.paletteTitle.textContent = palette.title;
+        elements.paletteTitle.style.color = ink;
+
+        elements.paletteDescription.textContent = palette.description;
+        elements.paletteDescription.style.color = muted;
+
+        document.querySelectorAll(".paper-card").forEach(function (panel) {
+          panel.style.backgroundColor = "#ffffff";
+          panel.style.borderColor = line;
+          panel.style.boxShadow = "0 18px 55px " + dark + "22";
+        });
+
+        document.querySelectorAll(".mood-button").forEach(function (button) {
+          const mood = button.dataset.mood;
+          const moodPalette = getPalette(mood);
+          const active = state.selectedMood === mood;
+          const dot = button.querySelector(".mood-dot");
+          const arrow = button.querySelector(".mood-arrow");
+
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-pressed", String(active));
+          button.style.backgroundColor = active ? soft : "#ffffff";
+          button.style.borderColor = active ? accent : line;
+          button.style.color = ink;
+          button.style.boxShadow = active
+            ? "0 0 0 4px " + accent + ", 0 16px 28px " + dark + "25"
+            : "0 4px 13px " + dark + "0d";
+
+          if (dot) {
+            dot.style.backgroundColor = colorAt(moodPalette, 2);
+            dot.style.borderColor = colorAt(moodPalette, 0);
+          }
+
+          if (arrow) arrow.style.color = colorAt(moodPalette, 3);
+        });
+
+        elements.selectionNote.style.borderColor = line;
+        elements.selectionNote.style.color = muted;
+
+        if (state.selectedMood) {
+          const selectedLabel = getPalette(state.selectedMood).label;
+          elements.selectionNote.textContent = state.appliedMood === state.selectedMood
+            ? "Applied " + selectedLabel + " theme across the page. Choose another mood to preview it."
+            : "Previewing " + selectedLabel + " — use Apply selected mood to commit this theme.";
+        } else {
+          elements.selectionNote.textContent = "Choose a mood to preview its color story.";
+        }
+
+        elements.visualStage.style.backgroundColor = depth;
+        elements.visualStage.style.borderColor = accent;
+        elements.visualStage.style.boxShadow = "inset 0 0 0 7px " + line + ", 0 14px 32px " + dark + "26";
+
+        document.querySelectorAll("[data-piece]").forEach(function (piece) {
+          const swatchIndex = Number(piece.dataset.swatchIndex || 0);
+          const accentIndex = Number(piece.dataset.accentIndex || 1);
+          const base = colorAt(palette, swatchIndex);
+          const highlight = colorAt(palette, accentIndex);
+          const isSelected = state.selectedPiece === piece.dataset.piece;
+          const label = piece.querySelector(".visual-piece-label");
+          const icon = piece.querySelector(".visual-piece-icon");
+
+          piece.classList.toggle("is-selected", isSelected);
+          piece.setAttribute("aria-pressed", String(isSelected));
+          piece.dataset.hex = base;
+          piece.style.backgroundColor = base;
+          piece.style.backgroundImage = "linear-gradient(135deg, " + base + " 0%, " + base + " 66%, " + highlight + " 66%, " + highlight + " 100%)";
+          piece.style.borderColor = line;
+          piece.style.color = readableText(base);
+          piece.style.boxShadow = isSelected
+            ? "0 0 0 5px " + accent + ", 0 20px 36px " + dark + "55"
+            : "0 12px 24px " + dark + "55";
+          piece.setAttribute("aria-label", piece.dataset.role + " color piece. " + base + " with " + highlight + " accent. Select to inspect.");
+
+          if (label) {
+            label.style.backgroundColor = "#ffffff";
+            label.style.color = "#1a171c";
+          }
+
+          if (icon) {
+            icon.style.backgroundColor = "#ffffff";
+            icon.style.color = highlight;
+          }
+        });
+
+        const activePiece = document.querySelector('[data-piece="' + state.selectedPiece + '"]') || document.querySelector("[data-piece]");
+        if (activePiece) {
+          elements.pieceStatus.textContent = activePiece.dataset.role + ": " + activePiece.dataset.hex;
+          state.selectedPiece = activePiece.dataset.piece;
+        }
+
+        const applyButton = document.getElementById("apply-mood");
+        if (applyButton) {
+          applyButton.style.backgroundColor = accent;
+          applyButton.style.borderColor = accent;
+          applyButton.style.color = readableText(accent);
+          applyButton.style.boxShadow = "0 10px 23px " + dark + "35";
+        }
+
+        document.querySelectorAll(".back-button").forEach(function (button) {
+          button.style.backgroundColor = soft;
+          button.style.borderColor = line;
+          button.style.color = readableText(soft);
+        });
+
+        document.querySelectorAll("footer").forEach(function (footer) {
+          footer.style.color = muted;
+        });
+
+        document.querySelectorAll("[data-template-id]").forEach(function (text) {
+          const templateId = text.dataset.templateId;
+
+          if (templateId === "apply-button-text") {
+            text.style.color = readableText(accent);
+          } else if (templateId === "back-all-moods") {
+            text.style.color = readableText(soft);
+          } else if (templateId === "menu-count") {
+            text.style.backgroundColor = soft;
+            text.style.borderColor = line;
+            text.style.color = readableText(soft);
+          } else if (/(description|subtitle|helper|note|copy)$/.test(templateId)) {
+            text.style.color = muted;
+          } else {
+            text.style.color = ink;
+          }
+        });
+
+        renderSwatches(palette);
+
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function selectMood(mood) {
+        if (!palettes[mood]) return;
+
+        state.selectedMood = mood;
+        state.selectedSwatch = null;
+        state.selectedPiece = "main";
+        state.view = "palette";
+        render();
+
+        const title = getPalette(mood).label;
+        announce(title + " selected. The palette preview and visible color pieces have updated.");
+
+        window.requestAnimationFrame(function () {
+          elements.paletteTitle.focus({ preventScroll: true });
+        });
+      }
+
+      async function selectSwatch(index) {
+        const palette = currentPalette();
+        const color = entryAt(palette, index);
+        state.selectedSwatch = index;
+        render();
+
+        try {
+          if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error("Clipboard unavailable");
+          await navigator.clipboard.writeText(color.hex);
+          announce(color.hex + " copied to clipboard.");
+        } catch (error) {
+          announce("Selected color: " + color.hex + ".");
+        }
+      }
+
+      function applySelectedMood() {
+        if (!state.selectedMood || !palettes[state.selectedMood]) {
+          announce("Choose a mood before applying a theme.");
+          return;
+        }
+
+        state.appliedMood = state.selectedMood;
+        render();
+
+        const appliedLabel = getPalette(state.appliedMood).label;
+        announce(appliedLabel + " theme applied. The complete page theme now uses this palette.");
+      }
+
+      elements.moodGrid.addEventListener("click", function (event) {
+        const button = event.target.closest("[data-mood]");
+        if (!button || !elements.moodGrid.contains(button)) return;
+        selectMood(button.dataset.mood);
+      });
+
+      elements.paletteActions.addEventListener("click", function (event) {
+        const action = event.target.closest("button");
+        if (!action || !elements.paletteActions.contains(action)) return;
+
+        if (action.id === "apply-mood") {
+          applySelectedMood();
+          return;
+        }
+
+        if (action.id === "back-to-moods") {
+          state.view = "menu";
+          render();
+
+          const activeButton = document.querySelector('[data-mood="' + state.selectedMood + '"]');
+          if (activeButton) activeButton.focus();
+        }
+      });
+
+      elements.visualStage.addEventListener("click", function (event) {
+        const piece = event.target.closest("[data-piece]");
+        if (!piece || !elements.visualStage.contains(piece)) return;
+
+        state.selectedPiece = piece.dataset.piece;
+        render();
+        announce(piece.dataset.role + " selected. Its active color is " + piece.dataset.hex + ".");
+      });
+
+      elements.swatchGrid.addEventListener("click", function (event) {
+        const swatch = event.target.closest("[data-swatch-index]");
+        if (!swatch || !elements.swatchGrid.contains(swatch)) return;
+        selectSwatch(Number(swatch.dataset.swatchIndex));
+      });
+
+      render();
+    });
+  </script>
+ 
+</body></html>
