@@ -710,16 +710,19 @@
 
       function render() {
         const palette = currentPalette();
-        const paper = colorAt(palette, 0);
-        const line = colorAt(palette, 1);
-        const accent = colorAt(palette, 2);
-        const accentTwo = colorAt(palette, 3);
-        const dark = colorAt(palette, 4);
-        const soft = colorAt(palette, 5);
-        const detail = colorAt(palette, 6);
-        const depth = colorAt(palette, 7);
+        const theme = getPalette(state.appliedMood);
+        const paper = colorAt(theme, 0);
+        const line = colorAt(theme, 1);
+        const accent = colorAt(theme, 2);
+        const dark = colorAt(theme, 4);
+        const soft = colorAt(theme, 5);
         const ink = readableText(paper);
         const muted = ink === "#17151a" ? "#4d4450" : "#f1eaf5";
+        const previewLine = colorAt(palette, 1);
+        const previewAccent = colorAt(palette, 2);
+        const previewDark = colorAt(palette, 4);
+        const previewSoft = colorAt(palette, 5);
+        const previewDepth = colorAt(palette, 7);
 
         document.documentElement.style.setProperty("--paper", paper);
         document.documentElement.style.setProperty("--ink", ink);
@@ -741,8 +744,8 @@
         elements.headerDot.style.boxShadow = "0 0 0 7px " + soft;
 
         elements.paletteTag.textContent = palette.tag;
-        elements.paletteTag.style.backgroundColor = soft;
-        elements.paletteTag.style.color = readableText(soft);
+        elements.paletteTag.style.backgroundColor = previewSoft;
+        elements.paletteTag.style.color = readableText(previewSoft);
 
         elements.paletteTitle.textContent = palette.title;
         elements.paletteTitle.style.color = ink;
@@ -792,9 +795,9 @@
           elements.selectionNote.textContent = "Choose a mood to preview its color story.";
         }
 
-        elements.visualStage.style.backgroundColor = depth;
-        elements.visualStage.style.borderColor = accent;
-        elements.visualStage.style.boxShadow = "inset 0 0 0 7px " + line + ", 0 14px 32px " + dark + "26";
+        elements.visualStage.style.backgroundColor = previewDepth;
+        elements.visualStage.style.borderColor = previewAccent;
+        elements.visualStage.style.boxShadow = "inset 0 0 0 7px " + previewLine + ", 0 14px 32px " + previewDark + "26";
 
         document.querySelectorAll("[data-piece]").forEach(function (piece) {
           const swatchIndex = Number(piece.dataset.swatchIndex || 0);
@@ -810,11 +813,11 @@
           piece.dataset.hex = base;
           piece.style.backgroundColor = base;
           piece.style.backgroundImage = "linear-gradient(135deg, " + base + " 0%, " + base + " 66%, " + highlight + " 66%, " + highlight + " 100%)";
-          piece.style.borderColor = line;
+          piece.style.borderColor = previewLine;
           piece.style.color = readableText(base);
           piece.style.boxShadow = isSelected
-            ? "0 0 0 5px " + accent + ", 0 20px 36px " + dark + "55"
-            : "0 12px 24px " + dark + "55";
+            ? "0 0 0 5px " + previewAccent + ", 0 20px 36px " + previewDark + "55"
+            : "0 12px 24px " + previewDark + "55";
           piece.setAttribute("aria-label", piece.dataset.role + " color piece. " + base + " with " + highlight + " accent. Select to inspect.");
 
           if (label) {
@@ -836,10 +839,10 @@
 
         const applyButton = document.getElementById("apply-mood");
         if (applyButton) {
-          applyButton.style.backgroundColor = accent;
-          applyButton.style.borderColor = accent;
-          applyButton.style.color = readableText(accent);
-          applyButton.style.boxShadow = "0 10px 23px " + dark + "35";
+          applyButton.style.backgroundColor = previewAccent;
+          applyButton.style.borderColor = previewAccent;
+          applyButton.style.color = readableText(previewAccent);
+          applyButton.style.boxShadow = "0 10px 23px " + previewDark + "35";
         }
 
         document.querySelectorAll(".back-button").forEach(function (button) {
@@ -856,7 +859,7 @@
           const templateId = text.dataset.templateId;
 
           if (templateId === "apply-button-text") {
-            text.style.color = readableText(accent);
+            text.style.color = readableText(previewAccent);
           } else if (templateId === "back-all-moods") {
             text.style.color = readableText(soft);
           } else if (templateId === "menu-count") {
